@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LogIn, User, Lock, Video } from "lucide-react";
+import config from '../config.js';
 
 export default function Signin() {
   const usernameRef = useRef();
@@ -19,7 +20,7 @@ export default function Signin() {
     try {
       const username = usernameRef.current.value;
 
-      const res = await axios.post("http://localhost:4000/api/v1/auth/signin", {
+      const res = await axios.post(`${config.apiUrl}/api/v1/auth/signin`, {
         username,
         password: passwordRef.current.value,
       });

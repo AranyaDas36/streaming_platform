@@ -5,6 +5,7 @@ import { Heart, MessageCircle, AlertCircle, RefreshCw, Share2, Download } from "
 import axios from "axios"
 import LikesModal from "./LikesModal"
 import "../styles/ReelsFeed.css"
+import config from '../config.js';
 
 // Helper component for rendering each reel
 const ReelItem = ({ video, isActive }) => {
@@ -30,7 +31,7 @@ const ReelItem = ({ video, isActive }) => {
         const token = localStorage.getItem("token")
         if (!token) return
 
-        const res = await axios.get(`http://localhost:4000/api/v1/videos/${video._id}/like/check`, {
+        const res = await axios.get(`${config.apiUrl}/api/v1/videos/${video._id}/like/check`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         setIsLiked(res.data.liked)
@@ -57,7 +58,7 @@ const ReelItem = ({ video, isActive }) => {
     try {
       const token = localStorage.getItem("token")
       const res = await axios.post(
-        `http://localhost:4000/api/v1/videos/${video._id}/like`,
+        `${config.apiUrl}/api/v1/videos/${video._id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -70,7 +71,7 @@ const ReelItem = ({ video, isActive }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/v1/comments/${video._id}`)
+      const res = await axios.get(`${config.apiUrl}/api/v1/comments/${video._id}`)
       setComments(res.data.comments || [])
     } catch (err) {
       console.error("Error fetching comments:", err)
@@ -82,7 +83,7 @@ const ReelItem = ({ video, isActive }) => {
     try {
       const token = localStorage.getItem("token")
       const res = await axios.post(
-        `http://localhost:4000/api/v1/comments/${video._id}`,
+        `${config.apiUrl}/api/v1/comments/${video._id}`,
         { text: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -193,10 +194,8 @@ const ReelItem = ({ video, isActive }) => {
       filePath: video.videoFilePath
     });
 
-    // First check if we have a direct videoUrl
     if (video.videoUrl) {
       if (isYouTubeUrl(video.videoUrl)) {
-        // For YouTube URLs, we'll embed them instead of trying to play directly
         return video.videoUrl;
       }
       
@@ -208,26 +207,20 @@ const ReelItem = ({ video, isActive }) => {
       return video.videoUrl;
     }
     
-    // If no videoUrl, try to use videoFilePath
     if (!video.videoFilePath) {
       console.error("No video source found for video:", video._id);
       setErrorDetails("No video source found");
       return null;
     }
     
-    const baseUrl = "http://localhost:4000"
-    let videoUrl;
-    
     try {
       if (video.videoFilePath.startsWith("uploads/")) {
-        videoUrl = `${baseUrl}/${video.videoFilePath}`;
+        return `${config.apiUrl}/${video.videoFilePath}`;
       } else if (video.videoFilePath.startsWith("/")) {
-        videoUrl = `${baseUrl}${video.videoFilePath}`;
+        return `${config.apiUrl}${video.videoFilePath}`;
       } else {
-        videoUrl = `${baseUrl}/uploads/${video.videoFilePath}`;
+        return `${config.apiUrl}/uploads/${video.videoFilePath}`;
       }
-      
-      return videoUrl;
     } catch (error) {
       console.error("Error constructing video URL:", error);
       setErrorDetails("Error constructing video URL");
@@ -337,7 +330,7 @@ const ReelItem = ({ video, isActive }) => {
       setLoadingLikes(true);
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/${video._id}/likes`,
+        `${config.apiUrl}/api/v1/videos/${video._id}/likes`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setLikes(res.data.likes);
@@ -547,7 +540,7 @@ const ReelsFeed = () => {
     const fetchReels = async () => {
       try {
         const token = localStorage.getItem("token")
-        const res = await axios.get("http://localhost:4000/api/v1/videos/reels", {
+        const res = await axios.get(`${config.apiUrl}/api/v1/videos/reels`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

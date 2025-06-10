@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserPlus, User, Lock, Video } from 'lucide-react';
+import config from '../config.js';
 
 export default function Signup() {
   const usernameRef = useRef();
@@ -16,7 +17,7 @@ export default function Signup() {
     setMessage('');
 
     try {
-      await axios.post('http://localhost:4000/api/v1/auth/signup', {
+      await axios.post(`${config.apiUrl}/api/v1/auth/signup`, {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       });
