@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Heart, Share2, Download, Play, ShoppingCart } from "lucide-react";
 import LikesModal from "./LikesModal";
+import config from '../config.js';
 
 export default function VideoCard({ video }) {
   const [purchased, setPurchased] = useState(false);
@@ -25,7 +26,7 @@ export default function VideoCard({ video }) {
   const checkPurchase = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/purchase/check/${video._id}`,
+        `${config.apiUrl}/api/v1/purchase/check/${video._id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setPurchased(res.data.purchased);
@@ -38,7 +39,7 @@ export default function VideoCard({ video }) {
     try {
       if (!token) return;
       const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/${video._id}/like/check`,
+        `${config.apiUrl}/api/v1/videos/${video._id}/like/check`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setIsLiked(res.data.liked);
@@ -55,7 +56,7 @@ export default function VideoCard({ video }) {
         return;
       }
       const res = await axios.post(
-        `http://localhost:4000/api/v1/videos/${video._id}/like`,
+        `${config.apiUrl}/api/v1/videos/${video._id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -70,7 +71,7 @@ export default function VideoCard({ video }) {
     try {
       setLoadingLikes(true);
       const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/${video._id}/likes`,
+        `${config.apiUrl}/api/v1/videos/${video._id}/likes`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setLikes(res.data.likes);
@@ -85,7 +86,7 @@ export default function VideoCard({ video }) {
   const handleBuy = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/v1/purchase/${video._id}`,
+        `${config.apiUrl}/api/v1/purchase/${video._id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -128,7 +129,7 @@ export default function VideoCard({ video }) {
 
       // For uploaded videos
       if (video.videoFilePath) {
-        const videoUrl = `http://localhost:4000/${video.videoFilePath}`;
+        const videoUrl = `${config.apiUrl}/${video.videoFilePath}`;
         const link = document.createElement('a');
         link.href = videoUrl;
         link.download = `${video.title || 'video'}.mp4`;
@@ -150,7 +151,7 @@ export default function VideoCard({ video }) {
           {video.videoType === "Short-Form" ? (
             <video
               ref={videoRef}
-              src={`http://localhost:4000/${video.videoFilePath}`}
+              src={`${config.apiUrl}/${video.videoFilePath}`}
               className="w-full h-64 object-cover cursor-pointer"
               onClick={handleWatch}
               muted

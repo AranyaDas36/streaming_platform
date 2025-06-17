@@ -17,6 +17,7 @@ import {
   User,
 } from "lucide-react"
 import LikesModal from "./LikesModal"
+import config from '../config.js'
 
 export default function Player() {
   const { id } = useParams()
@@ -41,7 +42,7 @@ export default function Player() {
 
       try {
         setCommentLoading(true)
-        const res = await axios.get(`http://localhost:4000/api/v1/comments/${id}`)
+        const res = await axios.get(`${config.apiUrl}/api/v1/comments/${id}`)
         setComments(res.data.comments)
       } catch (err) {
         console.error("Failed to load comments")
@@ -57,7 +58,7 @@ export default function Player() {
     const fetchVideo = async () => {
       try {
         setLoading(true)
-        const res = await axios.get(`http://localhost:4000/api/v1/videos/${id}`, {
+        const res = await axios.get(`${config.apiUrl}/api/v1/videos/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         setVideo(res.data.video)
@@ -79,7 +80,7 @@ export default function Player() {
   const checkLikeStatus = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/${id}/like/check`,
+        `${config.apiUrl}/api/v1/videos/${id}/like/check`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       setLiked(res.data.liked)
@@ -96,7 +97,7 @@ export default function Player() {
         return
       }
       const res = await axios.post(
-        `http://localhost:4000/api/v1/videos/${id}/like`,
+        `${config.apiUrl}/api/v1/videos/${id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -111,7 +112,7 @@ export default function Player() {
     try {
       setLoadingLikes(true)
       const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/${id}/likes`,
+        `${config.apiUrl}/api/v1/videos/${id}/likes`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       setLikes(res.data.likes)
@@ -145,7 +146,7 @@ export default function Player() {
 
       // For uploaded videos
       if (video.videoFilePath) {
-        const videoUrl = `http://localhost:4000/${video.videoFilePath}`;
+        const videoUrl = `${config.apiUrl}/${video.videoFilePath}`;
         const link = document.createElement('a');
         link.href = videoUrl;
         link.download = `${video.title || 'video'}.mp4`;
@@ -169,7 +170,7 @@ export default function Player() {
 
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/v1/comments/${id}`,
+        `${config.apiUrl}/api/v1/comments/${id}`,
         { text: newComment },
         { headers: { Authorization: `Bearer ${token}` } },
       )
@@ -285,7 +286,7 @@ export default function Player() {
                   {video.videoType === "Short-Form" ? (
                     <div className="relative">
                       <video
-                        src={`http://localhost:4000/${video.videoFilePath}`}
+                        src={`${config.apiUrl}/${video.videoFilePath}`}
                         className="w-full aspect-video object-cover"
                         controls
                         onPlay={() => setIsPlaying(true)}

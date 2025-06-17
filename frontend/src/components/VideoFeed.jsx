@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import config from '../config.js';
 
 export default function VideoFeed() {
   const [videos, setVideos] = useState([]);
@@ -15,7 +16,7 @@ export default function VideoFeed() {
     if (!token) return;
     try {
         const res = await axios.get(
-        `http://localhost:4000/api/v1/videos/feed?page=${page}&limit=5`,
+        `${config.apiUrl}/api/v1/videos/feed?page=${page}&limit=5`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -44,7 +45,7 @@ export default function VideoFeed() {
   const checkPurchase = async (videoId) => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/purchase/check/${videoId}`,
+        `${config.apiUrl}/api/v1/purchase/check/${videoId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -61,7 +62,7 @@ export default function VideoFeed() {
   const handleBuy = async (videoId, price) => {
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/v1/purchase/${videoId}`,
+        `${config.apiUrl}/api/v1/purchase/${videoId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

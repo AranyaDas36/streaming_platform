@@ -4,6 +4,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { Upload, Video, Youtube, X, Check, Loader2 } from "lucide-react"
+import config from '../config.js'
 
 export default function AddVideo() {
   const [title, setTitle] = useState("")
@@ -37,7 +38,7 @@ export default function AddVideo() {
         formData.append("videoUrl", videoUrl)
       }
 
-      const res = await axios.post("http://localhost:4000/api/v1/videos/upload", formData, {
+      const res = await axios.post(`${config.apiUrl}/api/v1/videos/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

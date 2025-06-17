@@ -4,6 +4,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { Play, User, ShoppingCart, Calendar, Video } from "lucide-react"
 import { Trash2 } from "lucide-react"
+import config from '../config.js'
 
 
 export default function LongFormFeed() {
@@ -19,7 +20,7 @@ export default function LongFormFeed() {
 
   const checkPurchase = async (videoId) => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/v1/purchase/check/${videoId}`, {
+      const res = await axios.get(`${config.apiUrl}/api/v1/purchase/check/${videoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setPurchasedMap((prev) => ({
@@ -34,7 +35,7 @@ export default function LongFormFeed() {
   const handleDelete = async (videoId) => {
   if (!window.confirm("Are you sure you want to delete this video?")) return;
   try {
-    await axios.delete(`http://localhost:4000/api/v1/videos/${videoId}`, {
+    await axios.delete(`${config.apiUrl}/api/v1/videos/${videoId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     setVideos((prev) => prev.filter((v) => v._id !== videoId))
@@ -48,7 +49,7 @@ export default function LongFormFeed() {
   const handleBuy = async (videoId, price) => {
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/v1/purchase/${videoId}`,
+        `${config.apiUrl}/api/v1/purchase/${videoId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -71,7 +72,7 @@ export default function LongFormFeed() {
 
       loadingRef.current = true
       try {
-        const res = await axios.get(`http://localhost:4000/api/v1/videos/feed?page=${page}&limit=6`, {
+        const res = await axios.get(`${config.apiUrl}/api/v1/videos/feed?page=${page}&limit=6`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 

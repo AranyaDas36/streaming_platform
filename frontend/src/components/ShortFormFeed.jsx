@@ -13,6 +13,7 @@ import {
   VolumeX,
   Volume2,
 } from "lucide-react"
+import config from '../config.js'
 
 export default function ShortFormFeed() {
   const [videos, setVideos] = useState([])
@@ -32,7 +33,7 @@ export default function ShortFormFeed() {
       try {
         setLoading(true)
         const res = await axios.get(
-          `http://localhost:4000/api/v1/videos/feed?page=${currentPage}&limit=9`,
+          `${config.apiUrl}/api/v1/videos/feed?page=${currentPage}&limit=9`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -115,7 +116,7 @@ export default function ShortFormFeed() {
     if (!window.confirm("Are you sure you want to delete this video?")) return
 
     try {
-      await axios.delete(`http://localhost:4000/api/v1/videos/${videoId}`, {
+      await axios.delete(`${config.apiUrl}/api/v1/videos/${videoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setVideos((prev) => prev.filter((v) => v._id !== videoId))
