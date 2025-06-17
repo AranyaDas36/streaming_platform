@@ -21,7 +21,7 @@ function App() {
           path="/" 
           element={
             isAuthenticated() ? (
-              <Navigate to="/dashboard" />
+              <Navigate to="/" />
             ) : (
               <Navigate to="/signin" />
             )
@@ -30,7 +30,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route
-          path="/dashboard"
+          path="/"
           element={
             <ProtectedRoute>
               <Dashboard />
