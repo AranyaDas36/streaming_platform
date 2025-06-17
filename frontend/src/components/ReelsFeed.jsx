@@ -344,7 +344,7 @@ const ReelItem = ({ video, isActive }) => {
 
   return (
     <>
-      <div className="relative w-full h-[calc(100vh-64px)] bg-black">
+      <div className="relative w-full h-[calc(100vh-56px)] sm:h-[calc(100vh-64px)] bg-black">
         {/* Video Container */}
         <div className="w-full h-full">
           {isYouTube && youtubeVideoId ? (
@@ -375,11 +375,11 @@ const ReelItem = ({ video, isActive }) => {
           )}
 
           {/* Video Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 bg-gradient-to-t from-black/70 to-transparent">
             <div className="flex items-start">
               <div className="flex-1 text-white">
-                <h3 className="text-lg font-semibold">{video.title}</h3>
-                <p className="text-sm text-gray-300">{video.description}</p>
+                <h3 className="text-base sm:text-lg font-semibold">{video.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-300">{video.description}</p>
               </div>
             </div>
           </div>
@@ -430,11 +430,11 @@ const ReelItem = ({ video, isActive }) => {
             <div className="flex flex-col items-center">
               <button 
                 onClick={toggleComments}
-                className="w-12 h-12 rounded-full bg-gray-800/60 flex items-center justify-center hover:bg-gray-700/60 transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-800/60 flex items-center justify-center hover:bg-gray-700/60 transition-colors"
               >
-                <MessageCircle className="w-6 h-6 text-white" />
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </button>
-              <span className="text-white text-sm mt-1">{comments.length}</span>
+              <span className="text-white text-xs sm:text-sm mt-1">{comments.length}</span>
             </div>
 
             {/* Share Button */}
@@ -468,52 +468,49 @@ const ReelItem = ({ video, isActive }) => {
 
           {/* Comments Overlay */}
           {showComments && (
-            <div className="absolute inset-0 bg-black/90 z-10">
-              <div className="h-full flex flex-col">
-                <div className="p-4 flex items-center border-b border-gray-700">
-                  <h4 className="text-white font-semibold flex-1">Comments</h4>
-                  <button 
-                    onClick={() => setShowComments(false)}
-                    className="text-white hover:text-gray-300"
-                  >
-                    ✕
-                  </button>
-                </div>
-                
-                <div className="flex-1 overflow-y-auto p-4">
-                  {comments.length === 0 ? (
-                    <p className="text-center text-gray-400">No comments yet. Be the first to comment!</p>
-                  ) : (
-                    comments.map((comment) => (
-                      <div key={comment._id} className="mb-4 text-white">
-                        <div className="font-semibold text-sm">
-                          {comment.userId?.username || "Anonymous"}
-                        </div>
-                        <div className="text-sm text-gray-300 mt-1">
-                          {comment.text}
-                        </div>
+            <div className="absolute inset-0 bg-black/90 z-10 flex flex-col">
+              <div className="p-2 sm:p-4 flex items-center border-b border-gray-700">
+                <h4 className="text-white font-semibold flex-1 text-base sm:text-lg">Comments</h4>
+                <button 
+                  onClick={() => setShowComments(false)}
+                  className="text-white hover:text-gray-300 text-lg sm:text-xl"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-2 sm:p-4">
+                {comments.length === 0 ? (
+                  <p className="text-center text-gray-400">No comments yet. Be the first to comment!</p>
+                ) : (
+                  comments.map((comment) => (
+                    <div key={comment._id} className="mb-4 text-white">
+                      <div className="font-semibold text-sm">
+                        {comment.userId?.username || "Anonymous"}
                       </div>
-                    ))
-                  )}
-                </div>
+                      <div className="text-sm text-gray-300 mt-1">
+                        {comment.text}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
 
-                <div className="p-4 border-t border-gray-700">
-                  <div className="flex space-x-2">
-                    <input
-                      type="text"
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Add a comment..."
-                      className="flex-1 bg-gray-800 text-white border-none rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                      onClick={handleComment}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-full disabled:opacity-50 hover:bg-blue-700 transition-colors"
-                      disabled={!newComment.trim()}
-                    >
-                      Send
-                    </button>
-                  </div>
+              <div className="p-4 border-t border-gray-700">
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Add a comment..."
+                    className="flex-1 bg-gray-800 text-white border-none rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    onClick={handleComment}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-full disabled:opacity-50 hover:bg-blue-700 transition-colors"
+                    disabled={!newComment.trim()}
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </div>

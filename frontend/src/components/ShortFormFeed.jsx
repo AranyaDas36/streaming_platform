@@ -145,8 +145,8 @@ export default function ShortFormFeed() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {videos.map((video, index) => {
           const isLast = index === videos.length - 1
           const ref = isLast ? lastVideoRef : null
@@ -197,11 +197,11 @@ export default function ShortFormFeed() {
                 </div>
               </div>
 
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">{video.title}</h3>
+              <div className="p-4 sm:p-6">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">{video.title}</h3>
 
                 {video.description && (
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{video.description}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-2">{video.description}</p>
                 )}
 
                 <div className="flex items-center gap-2 mb-4">
@@ -218,7 +218,7 @@ export default function ShortFormFeed() {
                   {formatDate(video.uploadedAt)}
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-col sm:flex-row">
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
